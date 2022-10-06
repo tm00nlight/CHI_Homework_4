@@ -13,7 +13,6 @@ import androidx.core.app.NotificationManagerCompat
 const val TAG = "PlayMusicService"
 class PlayMusicService : Service() {
     var progress = 0
-    //private val receiver = MainActivity.TrackProgressReceiver()
     private val filter = IntentFilter()
     private val mediaPlayer: MediaPlayer by lazy { MediaPlayer.create(this, R.raw.hear_me) }
 
@@ -26,7 +25,6 @@ class PlayMusicService : Service() {
 
     override fun onDestroy() {
         stopMusic()
-        //unregisterReceiver(receiver)
         Log.d(TAG, "Service stopped")
         super.onDestroy()
     }
