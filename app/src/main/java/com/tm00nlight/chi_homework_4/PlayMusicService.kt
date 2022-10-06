@@ -20,9 +20,6 @@ class PlayMusicService : Service() {
     private val binder = PlayMusicBinder()
 
     override fun onBind(intent: Intent): IBinder = binder
-    override fun onUnbind(intent: Intent?): Boolean {
-        return super.onUnbind(intent)
-    }
 
     fun playerSeekTo(progress: Int) {
         progress_ms = progress * mediaPlayer.duration / 100
@@ -52,13 +49,13 @@ class PlayMusicService : Service() {
         val thread = Thread(Runnable {
             while (mediaPlayer.isPlaying) {
                 progress = 100 * mediaPlayer.currentPosition / mediaPlayer.duration
-                Thread.sleep(1000)
                 Log.d("THREAD", progress.toString())
                 Intent().also { intent ->
                     intent.action = "TRACK_PROGRESS"
                     intent.putExtra("progress", progress)
                     sendBroadcast(intent)
                 }
+                Thread.sleep(1000)
             }
         })
         thread.start()
