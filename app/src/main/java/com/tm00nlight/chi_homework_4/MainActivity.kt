@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
 import android.widget.Button
-import android.widget.ProgressBar
+import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
@@ -31,6 +31,25 @@ class MainActivity : AppCompatActivity() {
             playMusicService = null
         }
 
+        val progressBar = findViewById<SeekBar>(R.id.trackProgress)
+
+        progressBar.setOnSeekBarChangeListener (object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(sb: SeekBar?, progress: Int, fromUser: Boolean) {
+                if (fromUser) {
+                    playMusicService?.playerSeekTo(progress)
+                }
+            }
+
+            override fun onStartTrackingTouch(sb: SeekBar?) {
+                Log.d("SEEK BAR", "OnStart")
+            }
+
+            override fun onStopTrackingTouch(sb: SeekBar?) {
+                Log.d("SEEK BAR", "OnStop")
+            }
+
+        })
+
         filter.addAction("TRACK_PROGRESS")
         registerReceiver(receiver, filter)
     }
@@ -50,8 +69,8 @@ class MainActivity : AppCompatActivity() {
         unregisterReceiver(receiver)
     }
 
-    private fun updateProgressBar(progress: Int) {
-        val progressBar = findViewById<ProgressBar>(R.id.trackProgress)
+    private fun updateSeekBar(progress: Int) {
+        val progressBar = findViewById<SeekBar>(R.id.trackProgress)
         progressBar.setProgress(progress, false)
     }
 
@@ -62,7 +81,7 @@ class MainActivity : AppCompatActivity() {
             if(action.equals("TRACK_PROGRESS")){
                 progress = intent?.getIntExtra("progress", 0) ?: 0
                 Log.d("BROADCAST", "received $progress")
-                updateProgressBar(progress)
+                updateSeekBar(progress)
             }
         }
     }

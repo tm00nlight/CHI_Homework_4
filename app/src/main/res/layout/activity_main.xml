@@ -6,11 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <ProgressBar
+    <SeekBar
         android:id="@+id/trackProgress"
-        style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
-        android:layout_height="10dp"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
         android:progressTint="#673AB7"
         app:layout_constraintBottom_toBottomOf="parent"
