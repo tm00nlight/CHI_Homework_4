@@ -4,6 +4,7 @@ import android.app.*
 import android.content.Intent
 import android.content.IntentFilter
 import android.media.MediaPlayer
+import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
@@ -15,6 +16,9 @@ class PlayMusicService : Service() {
     var progress = 0
     private val filter = IntentFilter()
     private val mediaPlayer: MediaPlayer by lazy { MediaPlayer.create(this, R.raw.hear_me) }
+    private val binder = PlayMusicBinder()
+
+    override fun onBind(intent: Intent): IBinder = binder
 
     override fun onCreate() {
         filter.addAction("TRACK_PROGRESS")
@@ -29,8 +33,10 @@ class PlayMusicService : Service() {
         super.onDestroy()
     }
 
-    override fun onBind(intent: Intent): IBinder {
-        TODO("Return the communication channel to the service.")
+
+    inner class PlayMusicBinder : Binder() {
+        // Return this instance of LocalService so clients can call public methods
+        fun getService(): PlayMusicService = this@PlayMusicService
     }
 
     private fun playMusic() {
@@ -86,4 +92,5 @@ class PlayMusicService : Service() {
 
         startForeground(500, notification)
     }
+
 }
