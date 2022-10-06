@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.tm00nlight.chi_homework_4"
-        minSdk 21
+        minSdk 24
         targetSdk 32
         versionCode 1
         versionName "1.0"
@@ -29,6 +29,7 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    namespace 'com.tm00nlight.chi_homework_4'
 }
 
 dependencies {
