@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         stopButton.setOnClickListener {
-            //stopService(playMusicServiceIntent)
+            stopService(playMusicServiceIntent)
             unbindService(serviceConnection)
             playMusicService = null
         }
