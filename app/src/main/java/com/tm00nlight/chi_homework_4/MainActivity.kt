@@ -17,16 +17,19 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val playMusicServiceIntent = Intent(this, PlayMusicService::class.java)
+
         val playButton = findViewById<Button>(R.id.playButton)
         val stopButton = findViewById<Button>(R.id.stopButton)
 
         playButton.setOnClickListener {
-            Intent(this, PlayMusicService::class.java).also { intent ->
-                bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
-            }
+            startService(playMusicServiceIntent)
+
+            bindService(playMusicServiceIntent, serviceConnection, Context.BIND_AUTO_CREATE)
         }
 
         stopButton.setOnClickListener {
+            //stopService(playMusicServiceIntent)
             unbindService(serviceConnection)
             playMusicService = null
         }
@@ -65,8 +68,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onPause() {
-        super.onPause()
         unregisterReceiver(receiver)
+        super.onPause()
     }
 
     private fun updateSeekBar(progress: Int) {

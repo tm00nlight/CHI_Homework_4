@@ -33,6 +33,10 @@ class PlayMusicService : Service() {
         Log.d(TAG, "Service started")
     }
 
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        return START_REDELIVER_INTENT
+    }
+
     override fun onDestroy() {
         stopMusic()
         Log.d(TAG, "Service stopped")
